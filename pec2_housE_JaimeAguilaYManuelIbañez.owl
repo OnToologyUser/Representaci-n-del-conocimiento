@@ -12,6 +12,9 @@
     <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="swrl" IRI="http://www.w3.org/2003/11/swrl#"/>
+    <Prefix name="house" IRI="http://www.semanticweb.org/manuelir/ontologies/2022/3/house#"/>
+    <Prefix name="swrlb" IRI="http://www.w3.org/2003/11/swrlb#"/>
     <Annotation>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <Literal>A  House MD dataset
@@ -138,16 +141,19 @@ authors: Jaime Aguilá, Manuel Ibáñez</Literal>
         <DataProperty IRI="#code"/>
     </Declaration>
     <Declaration>
+        <DataProperty IRI="#episodeNumber"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="#episodes"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#name"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#number"/>
+        <DataProperty IRI="#order"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#order"/>
+        <DataProperty IRI="#seasonNumber"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#sentence"/>
@@ -279,6 +285,22 @@ authors: Jaime Aguilá, Manuel Ibáñez</Literal>
         <Class IRI="#Year"/>
         <Class IRI="#Time"/>
     </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Actor"/>
+        <Class IRI="#Character"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Character"/>
+        <Class IRI="#Director"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Character"/>
+        <Class IRI="#Writer"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Dialogue"/>
+        <Class IRI="#Monologue"/>
+    </DisjointClasses>
     <ClassAssertion>
         <Class IRI="#Actor"/>
         <NamedIndividual IRI="#Act1"/>
@@ -505,9 +527,19 @@ authors: Jaime Aguilá, Manuel Ibáñez</Literal>
         <Literal>Lesli Linka Glatter</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
+        <DataProperty IRI="#episodeNumber"/>
+        <NamedIndividual IRI="#Epi403"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#positiveInteger">3</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
         <DataProperty IRI="#title"/>
         <NamedIndividual IRI="#Epi403"/>
         <Literal>97 seconds</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#episodeNumber"/>
+        <NamedIndividual IRI="#Epi408"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#positiveInteger">8</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#title"/>
@@ -565,7 +597,7 @@ authors: Jaime Aguilá, Manuel Ibáñez</Literal>
         <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#unsignedInt">16</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
-        <DataProperty IRI="#number"/>
+        <DataProperty IRI="#seasonNumber"/>
         <NamedIndividual IRI="#S4"/>
         <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#unsignedInt">4</Literal>
     </DataPropertyAssertion>
@@ -755,6 +787,10 @@ authors: Jaime Aguilá, Manuel Ibáñez</Literal>
         <Class IRI="#ScriptPiece"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
+        <DataProperty IRI="#episodeNumber"/>
+        <Class IRI="#Episode"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
         <DataProperty IRI="#episodes"/>
         <Class IRI="#Season"/>
     </DataPropertyDomain>
@@ -763,16 +799,12 @@ authors: Jaime Aguilá, Manuel Ibáñez</Literal>
         <Class IRI="#Person"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
-        <DataProperty IRI="#number"/>
-        <Class IRI="#Episode"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
-        <DataProperty IRI="#number"/>
-        <Class IRI="#Season"/>
-    </DataPropertyDomain>
-    <DataPropertyDomain>
         <DataProperty IRI="#order"/>
         <Class IRI="#Line"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#seasonNumber"/>
+        <Class IRI="#Season"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#sentence"/>
@@ -787,6 +819,10 @@ authors: Jaime Aguilá, Manuel Ibáñez</Literal>
         <Datatype abbreviatedIRI="xsd:string"/>
     </DataPropertyRange>
     <DataPropertyRange>
+        <DataProperty IRI="#episodeNumber"/>
+        <Datatype abbreviatedIRI="xsd:positiveInteger"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
         <DataProperty IRI="#episodes"/>
         <Datatype abbreviatedIRI="xsd:positiveInteger"/>
     </DataPropertyRange>
@@ -795,11 +831,11 @@ authors: Jaime Aguilá, Manuel Ibáñez</Literal>
         <Datatype abbreviatedIRI="xsd:string"/>
     </DataPropertyRange>
     <DataPropertyRange>
-        <DataProperty IRI="#number"/>
+        <DataProperty IRI="#order"/>
         <Datatype abbreviatedIRI="xsd:positiveInteger"/>
     </DataPropertyRange>
     <DataPropertyRange>
-        <DataProperty IRI="#order"/>
+        <DataProperty IRI="#seasonNumber"/>
         <Datatype abbreviatedIRI="xsd:positiveInteger"/>
     </DataPropertyRange>
     <DataPropertyRange>
@@ -1040,6 +1076,11 @@ authors: Jaime Aguilá, Manuel Ibáñez</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#episodeNumber</IRI>
+        <Literal>Number of the episode</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#episodes</IRI>
         <Literal>Number of episodes of the season</Literal>
     </AnnotationAssertion>
@@ -1100,11 +1141,6 @@ authors: Jaime Aguilá, Manuel Ibáñez</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#number</IRI>
-        <Literal>Number of the season or the episode</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#order</IRI>
         <Literal>Order of the line in a script piece</Literal>
     </AnnotationAssertion>
@@ -1117,6 +1153,11 @@ authors: Jaime Aguilá, Manuel Ibáñez</Literal>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#saysALine</IRI>
         <Literal>A character says the line in a piece of script</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#seasonNumber</IRI>
+        <Literal>Number of the season</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
